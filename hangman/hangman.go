@@ -40,16 +40,15 @@ func (g *Game) MakeAGuess(guess string) {
 		if hasWon(g.Letters, g.FoundLetters) {
 			g.State = "won"
 		}
-	}
-	// Bad guess treament with 2 Game.State
-	if !letterInWord(guess, g.Letters) {
+	} else {
 		g.State = "badGuess"
-		g.UsedLetters = append(g.UsedLetters, guess)
-		g.TurnsLeft--
-		if g.TurnsLeft == 0 {
+		g.LoseTurn(guess)
+		if g.TurnsLeft <= 0 {
 			g.State = "lost"
 		}
+
 	}
+
 }
 
 func (g *Game) RevealLetter(guess string) {
@@ -59,6 +58,11 @@ func (g *Game) RevealLetter(guess string) {
 			g.FoundLetters[i] = guess
 		}
 	}
+}
+
+func (g *Game) LoseTurn(guess string) {
+	g.TurnsLeft--
+	g.UsedLetters = append(g.UsedLetters, guess)
 }
 
 func hasWon(letters []string, foundLetters []string) bool {
