@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Game struct with all data for game logic
 type Game struct {
 	State        string   // Game state
 	Letters      []string // Letters in the word to find
@@ -13,6 +14,7 @@ type Game struct {
 	TurnsLeft    int      // Remaining attempts
 }
 
+// New creates a new Game
 func New(turns int, word string) (*Game, error) {
 	if len(word) < 3 {
 		return nil, fmt.Errorf("Word '%s' must be at least 3 characters. Got=%v", word, len(word))
@@ -37,6 +39,12 @@ func New(turns int, word string) (*Game, error) {
 func (g *Game) MakeAGuess(guess string) {
 	guess = strings.ToUpper(guess)
 
+	// Handle the alreadyGuessed
+	switch g.State {
+	case "won", "lost":
+		return
+	}
+
 	if letterInWord(guess, g.UsedLetters) {
 		g.State = "alreadyGuessed"
 	} else if letterInWord(guess, g.Letters) {
@@ -57,6 +65,7 @@ func (g *Game) MakeAGuess(guess string) {
 
 }
 
+// RevealLetter treatment of the used letter
 func (g *Game) RevealLetter(guess string) {
 	g.UsedLetters = append(g.UsedLetters, guess)
 	for i, l := range g.Letters {
@@ -66,6 +75,7 @@ func (g *Game) RevealLetter(guess string) {
 	}
 }
 
+// LoseTurn just decr TurnsLeft
 func (g *Game) LoseTurn(guess string) {
 	g.TurnsLeft--
 	g.UsedLetters = append(g.UsedLetters, guess)

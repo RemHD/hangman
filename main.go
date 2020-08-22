@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"training.go/hangman/dictionary"
 	"training.go/hangman/hangman"
-	"training.go/hangman/hangman/dictionary"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	g := hangman.New(8, dictionary.PickWord())
+	g, err := hangman.New(8, dictionary.PickWord())
 
 	hangman.DrawWelcome()
 	guess := ""

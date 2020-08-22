@@ -2,8 +2,8 @@ package hangman
 
 import "fmt"
 
+// DrawWelcome prints your welcome message
 // You can generate ASCII art on http://patorjk.com/software/taag/
-
 func DrawWelcome() {
 	fmt.Println(`
 	_______  _______  _______           ______                      
@@ -26,6 +26,7 @@ func DrawWelcome() {
 	`)
 }
 
+// Draw call both functions to manage remaining turns and state
 func Draw(g *Game, guess string) {
 	drawTurns(g.TurnsLeft)
 	drawState(g, guess)

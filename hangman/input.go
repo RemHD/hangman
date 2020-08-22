@@ -9,6 +9,7 @@ import (
 
 var reader = bufio.NewReader(os.Stdin)
 
+// ReadGuess a function to format and print the letter in console
 func ReadGuess() (guess string, err error) {
 	valid := false
 	for !valid {
