@@ -27,6 +27,7 @@ func New(turns int, word string) *Game {
 	return g
 }
 
+// MakeAGuess Add treatment for bad guess
 func (g *Game) MakeAGuess(guess string) {
 	guess = strings.ToUpper(guess)
 
@@ -40,7 +41,15 @@ func (g *Game) MakeAGuess(guess string) {
 			g.State = "won"
 		}
 	}
-
+	// Bad guess treament with 2 Game.State
+	if !letterInWord(guess, g.Letters) {
+		g.State = "badGuess"
+		g.UsedLetters = append(g.UsedLetters, guess)
+		g.TurnsLeft--
+		if g.TurnsLeft == 0 {
+			g.State = "lost"
+		}
+	}
 }
 
 func (g *Game) RevealLetter(guess string) {
